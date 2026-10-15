@@ -1,4 +1,4 @@
-# pomodoro-timer
+
 # Pomodoro Timer
 
 A simple Pomodoro timer built with Python and Tkinter.
