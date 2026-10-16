@@ -1,5 +1,16 @@
 import tkinter as tk
 window = tk.Tk()
+window.title("FocusForge - Pomodoro Timer") 
+#title() changes the text in the window's title bar.
+window.geometry("500x400")
+#geometry() sets the initial window size to 500 × 400 pixels.
+window.configure(bg="#11111A")
+#configure(bg="...") changes the background color to a dark charcoal-purple shade.
+main_frame = tk.Frame(window, bg="#1E1E2E")
+main_frame.pack(padx=20, pady=20, fill="both", expand=False)
+#Frame() creates a new frame widget, which is a container for other widgets.
+button_frame = tk.Frame(window, bg="#222235")
+button_frame.pack(padx=20, pady=15, fill="x",expand=False)
 
 WORK_SECONDS = 25 * 60
 BREAK_SECONDS = 5 * 60
@@ -8,9 +19,9 @@ selected_mode = "Work"
 remaining_seconds = selected_duration #track the remaining time in seconds
 timer_running = False #track whether the timer is currently running
 timer_job = None #track the scheduled timer event
-timer_label = tk.Label(window, text="25:00")
+timer_label = tk.Label(main_frame, text="25:00", fg="white", bg="#424270")
 timer_label.pack()
-status_label = tk.Label(window, text="Ready")
+status_label = tk.Label(main_frame, text="Ready", fg="white", bg="#424270")
 status_label.pack()
 
 def choose_work():
@@ -73,15 +84,15 @@ def reset_timer():
     display_time()
     status_label.config(text="Timer reset")
 
-start_button = tk.Button(window, text="Start", command=start_timer)
-pause_button = tk.Button(window, text="Pause", command=pause_timer)
-reset_button = tk.Button(window, text="Reset", command=reset_timer)
+start_button = tk.Button(button_frame, text="Start", command=start_timer, fg="white", bg="#424270")
+pause_button = tk.Button(button_frame, text="Pause", command=pause_timer, fg="white", bg="#424270")
+reset_button = tk.Button(button_frame, text="Reset", command=reset_timer, fg="white", bg="#424270")
 start_button.pack()
 pause_button.pack()
 reset_button.pack()
 
-work_button= tk.Button(window, text="Work", command=choose_work)
-rest_button= tk.Button(window, text="Rest", command=choose_break)
+work_button= tk.Button(button_frame, text="Work", command=choose_work, fg="white", bg="#424270")
+rest_button= tk.Button(button_frame, text="Rest", command=choose_break, fg="white", bg="#424270")
 work_button.pack()
 rest_button.pack()
 
