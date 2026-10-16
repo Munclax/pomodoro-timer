@@ -57,13 +57,14 @@ def start_timer():
 
 def pause_timer():
     global timer_running, timer_job
+    if timer_running and remaining_seconds > 0: #runs if the timer is paused and there is still time left. It updates the status label to indicate that the timer is paused.
+          status_label.config(text="Timer paused")
     timer_running = False
     if timer_job is not None: #runs if the timer is currently running and there is a scheduled timer event. It cancels the scheduled event using window.after_cancel() and sets timer_job to None to indicate that there is no longer a scheduled event.
         window.after_cancel(timer_job)
         #after_cancel() method is used to cancel a scheduled event that was previously set using the after() method. It takes the identifier of the scheduled event as an argument and cancels it, preventing it from being executed.
         timer_job = None
         #set timer_job to None to indicate that there is no longer a scheduled event.
-    status_label.config(text="Timer paused")
 
 def reset_timer():
     global remaining_seconds
@@ -74,7 +75,7 @@ def reset_timer():
 
 start_button = tk.Button(window, text="Start", command=start_timer)
 pause_button = tk.Button(window, text="Pause", command=pause_timer)
-reset_button = tk.Button(window, text="Reset", command=choose_break)
+reset_button = tk.Button(window, text="Reset", command=reset_timer)
 start_button.pack()
 pause_button.pack()
 reset_button.pack()
