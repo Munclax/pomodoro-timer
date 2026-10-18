@@ -7,10 +7,12 @@ window.geometry("500x400")
 window.configure(bg="#11111A")
 #configure(bg="...") changes the background color to a dark charcoal-purple shade.
 main_frame = tk.Frame(window, bg="#1E1E2E")
-main_frame.pack(padx=20, pady=20, fill="both", expand=False)
+main_frame.pack(padx=20, pady=20, fill="both", expand=True)
 #Frame() creates a new frame widget, which is a container for other widgets.
 button_frame = tk.Frame(window, bg="#222235")
 button_frame.pack(padx=20, pady=15, fill="x",expand=False)
+mode_frame = tk.Frame(window, bg="#1E1E2E")
+mode_frame.pack(padx=20, pady=15, fill="x", expand=False)
 
 WORK_SECONDS = 25 * 60
 BREAK_SECONDS = 5 * 60
@@ -19,9 +21,9 @@ selected_mode = "Work"
 remaining_seconds = selected_duration #track the remaining time in seconds
 timer_running = False #track whether the timer is currently running
 timer_job = None #track the scheduled timer event
-timer_label = tk.Label(main_frame, text="25:00", fg="white", bg="#424270")
+timer_label = tk.Label(main_frame, text="25:00", fg="white", bg="#424270", font=("Helvetica", 48))
 timer_label.pack()
-status_label = tk.Label(main_frame, text="Ready", fg="white", bg="#424270")
+status_label = tk.Label(main_frame, text="Ready", fg="white", bg="#424270", font=("Helvetica", 14))
 status_label.pack()
 
 def choose_work():
@@ -84,16 +86,20 @@ def reset_timer():
     display_time()
     status_label.config(text="Timer reset")
 
-start_button = tk.Button(button_frame, text="Start", command=start_timer, fg="white", bg="#424270")
-pause_button = tk.Button(button_frame, text="Pause", command=pause_timer, fg="white", bg="#424270")
-reset_button = tk.Button(button_frame, text="Reset", command=reset_timer, fg="white", bg="#424270")
-start_button.pack()
-pause_button.pack()
-reset_button.pack()
+control_Frame = tk.Frame(button_frame, bg="#1E1E2E")
+control_Frame.pack(anchor="center", pady=20)
+start_button = tk.Button(control_Frame, text="Start", command=start_timer, fg="white", bg="#424270",padx=12, pady=6,font=("Helvetica", 12,"bold"))
+pause_button = tk.Button(control_Frame, text="Pause", command=pause_timer, fg="white", bg="#424270",padx=12, pady=6,font=("Helvetica", 12,"bold"))
+reset_button = tk.Button(control_Frame, text="Reset", command=reset_timer, fg="white", bg="#424270",padx=12, pady=6,font=("Helvetica", 12,"bold"))
+start_button.pack(side="left", padx=5)
+pause_button.pack(side="left", padx=5)
+reset_button.pack(side="left", padx=5)
 
-work_button= tk.Button(button_frame, text="Work", command=choose_work, fg="white", bg="#424270")
-rest_button= tk.Button(button_frame, text="Rest", command=choose_break, fg="white", bg="#424270")
-work_button.pack()
-rest_button.pack()
+change_mode_label = tk.Label(mode_frame,bg="#1E1E2E")
+change_mode_label.pack(anchor="center", pady=5)
+work_button = tk.Button(change_mode_label, text="Work", command=choose_work, fg="white", bg="#424270",padx=12, pady=6,font=("Helvetica", 12,"bold"))
+rest_button = tk.Button(change_mode_label, text="Rest", command=choose_break, fg="white", bg="#424270",padx=12, pady=6,font=("Helvetica", 12,"bold"))
+work_button.pack(side="left", padx=5,pady=5)
+rest_button.pack(side="left", padx=5,pady=5)
 
 window.mainloop()
