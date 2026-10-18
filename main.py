@@ -1,10 +1,13 @@
 import tkinter as tk
-window = tk.Tk()
+import customtkinter as ctk
+
+ctk.set_appearance_mode("dark")
+window = ctk.CTk()
 window.title("FocusForge - Pomodoro Timer") 
 #title() changes the text in the window's title bar.
 window.geometry("500x400")
 #geometry() sets the initial window size to 500 × 400 pixels.
-window.configure(bg="#11111A")
+window.configure(fg_color="#11111A")
 #configure(bg="...") changes the background color to a dark charcoal-purple shade.
 main_frame = tk.Frame(window, bg="#1E1E2E")
 main_frame.pack(padx=20, pady=20, fill="both", expand=True)
