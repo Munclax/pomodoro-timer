@@ -5,7 +5,7 @@ ctk.set_appearance_mode("dark")
 window = ctk.CTk()
 window.title("FocusForge - Pomodoro Timer") 
 #title() changes the text in the window's title bar.
-window.geometry("500x400")
+window.geometry("500x520")
 #geometry() sets the initial window size to 500 × 400 pixels.
 window.configure(fg_color="#11111A")
 #configure(fg_color="...") changes the background color to a dark charcoal-purple shade.
@@ -24,8 +24,15 @@ selected_mode = "Work"
 remaining_seconds = selected_duration #track the remaining time in seconds
 timer_running = False #track whether the timer is currently running
 timer_job = None #track the scheduled timer event
-timer_label = ctk.CTkLabel(main_frame, text="25:00", text_color="#F4F3FA", fg_color="transparent", corner_radius=10, font=ctk.CTkFont(family="Segoe UI",size=58, weight="bold"))
-timer_label.pack()
+
+timer_canvas = ctk.CTkCanvas(main_frame, width=240, height=240, bg="#1E1E2E", highlightthickness=0)
+timer_canvas.pack(pady=(4,6))
+timer_canvas.create_arc(22,22,218,218, start=90, extent=359.9, outline="#424270", width=14, style="arc")
+#create_arc() method draws an arc on the canvas. The parameters specify the bounding box of the arc (22,22,218,218), the starting angle (90 degrees).
+timer_progress_id = timer_canvas.create_arc(22,22,218,218, start=90, extent=0, outline="#424270", width=10, style="arc")
+timer_text_id = timer_canvas.create_text(120, 120, text="25:00", fill="#F4F3FA", font=("Segoe UI", 50, "bold"))
+#timer_label = ctk.CTkLabel(main_frame, text="25:00", text_color="#F4F3FA", fg_color="transparent", corner_radius=10, font=ctk.CTkFont(family="Segoe UI",size=58, weight="bold"))
+#timer_label.pack()
 status_label = ctk.CTkLabel(main_frame, text="Ready", text_color="#A6A8C3", fg_color="transparent", corner_radius=10, font=ctk.CTkFont(family="Segoe UI", size=14))
 status_label.pack()
 
@@ -47,8 +54,10 @@ def select_mode(mode, duration):
 def display_time():
     minutes, seconds = divmod(remaining_seconds, 60) 
     #divmod() function returns the quotient and remainder when dividing the first argument by the second. In this case, it divides remaining_seconds by 60 to get the number of minutes and seconds left in the timer.
-    timer_label.configure(text=f"{minutes:02}:{seconds:02}") 
+    timer_canvas.itemconfigure(timer_text_id, text=f"{minutes:02}:{seconds:02}") 
     #{:02} formats the minutes and seconds to always display two digits, adding a leading zero if necessary.
+    progress = max(0, min(1, remaining_seconds / selected_duration))
+    timer_canvas.itemconfigure(timer_progress_id, extent=359.9 * progress)
 
 def tick():
     global remaining_seconds, timer_job, timer_running 
